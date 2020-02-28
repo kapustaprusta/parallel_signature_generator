@@ -4,8 +4,15 @@
 #include <mutex>
 #include <memory>
 
+#include "../buffer/buffer.h"
+
 namespace data_structures
 {
+
+    template<typename T>
+    class SharedQueue;
+
+    typedef std::shared_ptr<data_structures::SharedQueue<data_structures::Buffer<uint8_t>>> SharedQueuePtr;
 
     template<typename T>
     class SharedQueue final
