@@ -1,6 +1,5 @@
 #pragma once
 
-#include <atomic>
 #include <fstream>
 
 #include "../writer.h"
@@ -18,8 +17,6 @@ namespace writer
             uint64_t GetProcessedBytes() const;
 
         private:
-            std::atomic_uint64_t processed_bytes_;
-
             std::ofstream file_stream_;
     };
 

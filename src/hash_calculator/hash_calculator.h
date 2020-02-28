@@ -14,4 +14,4 @@ namespace hash
             virtual std::vector<uint8_t> Calculate(const std::vector<uint8_t>& chunk) = 0;
     };
 
-}
+} // hash

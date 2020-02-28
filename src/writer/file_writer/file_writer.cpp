@@ -1,10 +1,11 @@
+#include <stdexcept>
+
 #include "file_writer.h"
 
 namespace writer
 {
 
     FileWriter::FileWriter(const std::string& file_path)
-        : processed_bytes_(0)
     {
         file_stream_ = std::ofstream(file_path, std::ofstream::out | std::ofstream::binary);
         if (!file_stream_.is_open())
@@ -15,10 +16,7 @@ namespace writer
 
     FileWriter::~FileWriter()
     {
-        if (file_stream_.is_open())
-        {
-            file_stream_.close();
-        }
+        file_stream_.close();
     }
 
     uint64_t FileWriter::Write(std::vector<uint8_t>& buffer)

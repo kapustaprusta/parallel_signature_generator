@@ -1,9 +1,11 @@
 #include <iostream>
 #include <memory>
+#include <future>
+#include <thread>
 
 #include "src/reader/file_reader/file_reader.h"
 #include "src/writer/file_writer/file_writer.h"
-#include "src/hash_calculator/md5_hash_calculator/md5_hash_calculator.h"
+#include "src/task/reader_task/reader_task.h"
 
 int main(int argc, char* argv[])
 {
@@ -21,13 +23,16 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    auto chunk = std::vector<uint8_t>();
-    auto hash_calculator = std::make_shared<hash::MD5HashCalculator>();
+    auto shared_queue = std::make_shared<data_structures::SharedQueue<data_structures::Buffer<uint8_t>>>();
+    auto reader_task = std::make_shared<task::ReaderTask>(reader, shared_queue);
 
-    while (!reader->IsEOF())
+    reader_task->Start();
+
+    while (!shared_queue->Empty())
     {
-        reader->Read (chunk);
-        auto res = hash_calculator->Calculate(chunk);
+        const auto buffer = shared_queue->Front();
+        shared_queue->Pop();
+        std::cout << buffer.GetId() << '\n';
     }
 
     return 0;

@@ -14,8 +14,6 @@ include_directories(${Boost_INCLUDE_DIRS})
 set(SOURCES
     psg.cpp
 
-    src/defs/defs.h
-
     src/reader/reader.h
 
     src/reader/file_reader/file_reader.h
@@ -30,6 +28,16 @@ set(SOURCES
 
     src/hash_calculator/md5_hash_calculator/md5_hash_calculator.h
     src/hash_calculator/md5_hash_calculator/md5_hash_calculator.cpp
+
+    src/data_structures/shared_queue/shared_queue.h
+
+    src/task/task.h
+
+    src/task/reader_task/reader_task.h
+    src/task/reader_task/reader_task.cpp
+
+    src/task/writer_task/writer_task.h
+    src/task/writer_task/writer_task.cpp
 )
 
 add_executable(parallel_signature_generator ${SOURCES})

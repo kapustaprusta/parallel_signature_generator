@@ -1,12 +1,11 @@
 ﻿#include <stdexcept>
-#include <iostream>
 
 #include "file_reader.h"
 
 namespace reader {
 
     FileReader::FileReader(const std::string& file_path, const uint64_t chunk_size)
-        : chunk_size_(chunk_size), processed_bytes_(0), size_multiplier_(0x100000) // number of bytes in one megabyte
+        : IReader(chunk_size)
     {
         file_stream_ = std::ifstream(file_path, std::ifstream::in | std::ifstream::binary);
         if (!file_stream_.is_open())
@@ -19,10 +18,7 @@ namespace reader {
 
     FileReader::~FileReader()
     {
-        if (file_stream_.is_open())
-        {
-            file_stream_.close();
-        }
+        file_stream_.close();
     }
 
     uint64_t FileReader::Read(std::vector<uint8_t>& chunk)

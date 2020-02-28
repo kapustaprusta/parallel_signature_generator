@@ -1,6 +1,5 @@
 #pragma once
 
-#include <atomic>
 #include <fstream>
 
 #include "../reader.h"
@@ -19,10 +18,7 @@ namespace reader
             bool IsEOF() const override;
 
         private:
-            uint64_t chunk_size_;
             uint64_t file_size_;
-            const uint64_t size_multiplier_;
-            std::atomic_uint64_t processed_bytes_;
 
             std::ifstream file_stream_;
 
