@@ -13,9 +13,9 @@ namespace reader
             explicit FileReader(const std::string& file_path, uint64_t chunk_size);
             ~FileReader() final;
 
-            uint64_t Read(std::vector<uint8_t>& chunk) override;
+            uint64_t Read(defs::Chunk& chunk) override;
             uint64_t GetProcessedBytes() const override;
-            bool IsEOF() const override;
+            bool IsEOF() override;
 
         private:
             uint64_t file_size_;

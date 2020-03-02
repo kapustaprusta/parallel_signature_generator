@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "../defs/defs.h"
+
 namespace hash
 {
 
@@ -11,7 +13,7 @@ namespace hash
             explicit IHashCalculator() = default;
             virtual ~IHashCalculator() = default;
 
-            virtual std::vector<uint8_t> Calculate(const std::vector<uint8_t>& chunk) = 0;
+            virtual defs::Chunk Calculate(const defs::Chunk& chunk) = 0;
     };
 
 } // hash

@@ -13,7 +13,7 @@ namespace writer
             explicit FileWriter(const std::string& file_path);
             ~FileWriter() final;
 
-            uint64_t Write(std::vector<uint8_t>& buffer) override;
+            uint64_t Write(defs::Chunk& chunk) override;
             uint64_t GetProcessedBytes() const;
 
         private:

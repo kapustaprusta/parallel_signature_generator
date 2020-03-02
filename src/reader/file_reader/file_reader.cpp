@@ -8,9 +8,9 @@ namespace reader {
         : IReader(chunk_size)
     {
         file_stream_ = std::ifstream(file_path, std::ifstream::in | std::ifstream::binary);
-        if (!file_stream_.is_open())
+        if (!file_stream_.is_open() || chunk_size == 0)
         {
-            throw std::runtime_error("invalid file path");
+            throw std::runtime_error("FileReader::FileReader(...) : invalid arguments");
         }
 
         file_size_ = GetFileSize(file_stream_);
@@ -21,27 +21,35 @@ namespace reader {
         file_stream_.close();
     }
 
-    uint64_t FileReader::Read(std::vector<uint8_t>& chunk)
+    uint64_t FileReader::Read(defs::Chunk& chunk)
     {
-        auto valid_chunk_size = 0;
-        if (processed_bytes_ + chunk_size_*size_multiplier_ > file_size_)
+        std::lock_guard<std::mutex> lg(read_mutex_);
+
+        uint64_t valid_chunk_size = 0;
+        if (processed_bytes_ + chunk_size_ > file_size_)
         {
             valid_chunk_size = file_size_ - processed_bytes_;
         }
         else
         {
-            valid_chunk_size = chunk_size_*size_multiplier_;
+            valid_chunk_size = chunk_size_;
         }
 
-        chunk.resize(valid_chunk_size);
-        file_stream_.read(reinterpret_cast<char*>(chunk.data()), chunk_size_*size_multiplier_);
-        processed_bytes_ += chunk.size();
+        chunk.id = processed_chunks_.load();
+        chunk.payload.resize(chunk_size_);
 
-        return chunk.size();
+        file_stream_.read(reinterpret_cast<char*>(chunk.payload.data()), chunk_size_);
+
+        processed_bytes_ += chunk.payload.size();
+        processed_chunks_++;
+
+        return chunk.payload.size();
     }
 
-    bool FileReader::IsEOF() const
+    bool FileReader::IsEOF()
     {
+        std::lock_guard<std::mutex> lg(read_mutex_);
+
         return file_stream_.eof();
     }
 

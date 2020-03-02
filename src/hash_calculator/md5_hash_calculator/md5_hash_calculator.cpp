@@ -1,16 +1,20 @@
 #include <boost/algorithm/hex.hpp>
 
+#include <iostream>
+
 #include "md5_hash_calculator.h"
 
 namespace hash
 {
 
-    std::vector<uint8_t> MD5HashCalculator::Calculate(const std::vector<uint8_t>& chunk)
+    defs::Chunk MD5HashCalculator::Calculate(const defs::Chunk& chunk)
     {
-        hash_.process_bytes(chunk.data(), chunk.size());
-        hash_.get_digest(digest_);
+        boost::uuids::detail::md5 hash;
 
-        return ConvertDigestToStdVector(digest_);
+        hash.process_bytes(chunk.payload.data(), chunk.payload.size());
+        hash.get_digest(digest_);
+
+        return {chunk.id, ConvertDigestToStdVector(digest_)};
     }
 
     std::vector<uint8_t> MD5HashCalculator::ConvertDigestToStdVector(const boost::uuids::detail::md5::digest_type& digest)

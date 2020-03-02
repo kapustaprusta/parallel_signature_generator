@@ -10,7 +10,7 @@ namespace writer
         file_stream_ = std::ofstream(file_path, std::ofstream::out | std::ofstream::binary);
         if (!file_stream_.is_open())
         {
-            throw std::runtime_error("invalid file path");
+            throw std::runtime_error("FileWriter::FileWriter(...) : invalid argument");
         }
     }
 
@@ -19,12 +19,15 @@ namespace writer
         file_stream_.close();
     }
 
-    uint64_t FileWriter::Write(std::vector<uint8_t>& buffer)
+    uint64_t FileWriter::Write(defs::Chunk& chunk)
     {
-        file_stream_.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
-        processed_bytes_ += buffer.size();
+        std::lock_guard<std::mutex> lg(write_mutex_);
 
-        return buffer.size();
+        file_stream_.seekp(chunk.payload.size()*chunk.id, std::ios::beg);
+        file_stream_.write(reinterpret_cast<char*>(chunk.payload.data()), chunk.payload.size());
+        processed_bytes_ += chunk.payload.size();
+
+        return chunk.payload.size();
     }
 
     uint64_t FileWriter::GetProcessedBytes() const

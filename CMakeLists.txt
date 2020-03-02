@@ -3,16 +3,23 @@ cmake_minimum_required(VERSION 3.8)
 
 set(CMAKE_CXX_STANDARD 17)
 
+if (UNIX)
+    find_package (Threads)
+endif()
+
 if(WIN32)
     set(BOOST_ROOT "C://local//boost_1_72_0")
 endif()
 
-find_package(Boost 1.72.0 REQUIRED COMPONENTS)
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.72.0 REQUIRED COMPONENTS program_options)
 
 include_directories(${Boost_INCLUDE_DIRS})
 
 set(SOURCES
     psg.cpp
+
+    src/defs/defs.h
 
     src/reader/reader.h
 
@@ -29,16 +36,21 @@ set(SOURCES
     src/hash_calculator/md5_hash_calculator/md5_hash_calculator.h
     src/hash_calculator/md5_hash_calculator/md5_hash_calculator.cpp
 
-    src/data_structures/shared_queue/shared_queue.h
-
     src/task/task.h
 
-    src/task/reader_task/reader_task.h
-    src/task/reader_task/reader_task.cpp
+    src/task/hash_task/hash_task.h
+    src/task/hash_task/hash_task.cpp
 
-    src/task/writer_task/writer_task.h
-    src/task/writer_task/writer_task.cpp
+    src/threadpool/threadpool.h
+    src/threadpool/threadpool.cpp
+
+    src/cli_parser/cli_parser.h
+    src/cli_parser/cli_parser.cpp
 )
 
 add_executable(parallel_signature_generator ${SOURCES})
 target_link_libraries(parallel_signature_generator PUBLIC ${Boost_LIBRARIES})
+
+if (UNIX)
+    target_link_libraries (parallel_signature_generator ${CMAKE_THREAD_LIBS_INIT})
+endif()

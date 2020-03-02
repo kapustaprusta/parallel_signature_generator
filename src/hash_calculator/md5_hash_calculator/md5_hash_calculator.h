@@ -13,10 +13,9 @@ namespace hash
             explicit MD5HashCalculator() = default;
             ~MD5HashCalculator() final = default;
 
-            std::vector<uint8_t> Calculate(const std::vector<uint8_t>& chunk) override;
+            defs::Chunk Calculate(const defs::Chunk& chunk) override;
 
         private:
-            boost::uuids::detail::md5 hash_;
             boost::uuids::detail::md5::digest_type digest_;
 
             std::vector<uint8_t> ConvertDigestToStdVector(const boost::uuids::detail::md5::digest_type& digest);
