@@ -8,10 +8,16 @@ namespace reader {
         : IReader(chunk_size)
     {
         file_stream_ = std::ifstream(file_path, std::ifstream::in | std::ifstream::binary);
-        if (!file_stream_.is_open() || chunk_size == 0)
+        if (!file_stream_.is_open())
         {
-            throw std::runtime_error("FileReader::FileReader(...) : invalid arguments");
+            throw std::runtime_error("FileReader::FileReader(...) : invalid file path");
         }
+
+        if (chunk_size == 0)
+        {
+            throw std::runtime_error("FileReader::FileReader(...) : invalid chunk size");
+        }
+
 
         file_size_ = GetFileSize(file_stream_);
     }

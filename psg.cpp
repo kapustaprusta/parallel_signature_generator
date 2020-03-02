@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
     }
     p_thread_pool.reset();
 
-    printf("time taken: %.2fs\n", (double)(clock() - t_start) / CLOCKS_PER_SEC);
+    std::cout << "time taken: " << (double)(clock() - t_start) / CLOCKS_PER_SEC << '\n';
 
     return 0;
 }

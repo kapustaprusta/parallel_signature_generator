@@ -10,9 +10,14 @@ namespace task
 
     HashTask::HashTask(const std::shared_ptr<reader::IReader>& p_reader, const std::shared_ptr<writer::IWRiter>& p_writer)
     {
-        if (!p_reader || !p_writer)
+        if (!p_reader)
         {
-            throw std::runtime_error("HashTask::HashTask(...) : invalid arguments");
+            throw std::runtime_error("HashTask::HashTask(...) : invalid pointer o reader");
+        }
+
+        if (!p_writer)
+        {
+            throw std::runtime_error("HashTask::HashTask(...) : invalid pointer to writer");
         }
 
         p_reader_ = p_reader;

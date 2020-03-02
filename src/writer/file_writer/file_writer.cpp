@@ -10,7 +10,7 @@ namespace writer
         file_stream_ = std::ofstream(file_path, std::ofstream::out | std::ofstream::binary);
         if (!file_stream_.is_open())
         {
-            throw std::runtime_error("FileWriter::FileWriter(...) : invalid argument");
+            throw std::runtime_error("FileWriter::FileWriter(...) : invalid file path");
         }
     }
 
