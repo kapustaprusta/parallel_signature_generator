@@ -22,7 +22,7 @@ namespace task
         private:
             std::shared_ptr<reader::IReader> p_reader_;
             std::shared_ptr<writer::IWRiter> p_writer_;
-            std::shared_ptr<hash::IHashCalculator> p_hash_calculator_;
+            std::unique_ptr<hash::IHashCalculator> p_hash_calculator_;
     };
 
 } // task

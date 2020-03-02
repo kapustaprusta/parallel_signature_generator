@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
         p_reader = std::make_shared<reader::FileReader>(config.input_file_path, config.block_size);
         p_writer = std::make_shared<writer::FileWriter>(config.output_file_path);
     }
-    catch (const std::exception& e)
+    catch (std::exception& e)
     {
         std::cout << e.what() << '\n';
         return 0;

@@ -17,7 +17,7 @@ namespace task
 
         p_reader_ = p_reader;
         p_writer_ = p_writer;
-        p_hash_calculator_ = std::make_shared<hash::MD5HashCalculator>();
+        p_hash_calculator_ = std::make_unique<hash::MD5HashCalculator>();
     }
 
     void HashTask::Start()
