@@ -1,2 +1,4 @@
 .vs/
+cmake-build-release/
+cmake-build-debug/
 CMakeSettings.json

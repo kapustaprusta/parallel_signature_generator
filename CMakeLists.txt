@@ -49,8 +49,13 @@ set(SOURCES
 )
 
 add_executable(parallel_signature_generator ${SOURCES})
-target_link_libraries(parallel_signature_generator PUBLIC ${Boost_LIBRARIES})
+
+if (WIN)
+    target_link_libraries(parallel_signature_generator PUBLIC ${Boost_LIBRARIES})
+endif()
 
 if (UNIX)
-    target_link_libraries (parallel_signature_generator ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries (parallel_signature_generator PUBLIC ${CMAKE_THREAD_LIBS_INIT}
+                                                        PUBLIC ${Boost_LIBRARIES}
+    )
 endif()

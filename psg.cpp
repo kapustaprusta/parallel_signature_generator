@@ -1,3 +1,4 @@
+#include <list>
 #include <memory>
 #include <iostream>
 
@@ -50,9 +51,6 @@ int main(int argc, char* argv[])
         tasks.emplace_back(std::make_shared<task::HashTask>(p_reader, p_writer));
     }
 
-    //
-    clock_t t_start = clock();
-
     for (const auto& task : tasks)
     {
         p_thread_pool->Schedule([task]() -> void
@@ -60,9 +58,6 @@ int main(int argc, char* argv[])
             task->Start();
         });
     }
-    p_thread_pool.reset();
-
-    std::cout << "time taken: " << (double)(clock() - t_start) / CLOCKS_PER_SEC << '\n';
 
     return 0;
 }

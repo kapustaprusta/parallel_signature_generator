@@ -31,7 +31,8 @@ namespace task
         {
             defs::Chunk chunk;
             p_reader_->Read(chunk);
-            p_writer_->Write(p_hash_calculator_->Calculate(chunk));
+            auto hash_sum_chunk = p_hash_calculator_->Calculate(chunk);
+            p_writer_->Write(hash_sum_chunk);
         }
     }
 
