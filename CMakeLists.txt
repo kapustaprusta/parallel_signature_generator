@@ -50,7 +50,7 @@ set(SOURCES
 
 add_executable(parallel_signature_generator ${SOURCES})
 
-if (WIN)
+if (WIN32)
     target_link_libraries(parallel_signature_generator PUBLIC ${Boost_LIBRARIES})
 endif()
 
