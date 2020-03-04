@@ -12,7 +12,7 @@ if(WIN32)
 endif()
 
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.72.0 REQUIRED COMPONENTS program_options)
+find_package(Boost 1.65.0 REQUIRED COMPONENTS program_options)
 
 include_directories(${Boost_INCLUDE_DIRS})
 
